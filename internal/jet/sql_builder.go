@@ -189,7 +189,7 @@ func stringQuote(value string) string {
 }
 
 func isReservedWord(identifier string) bool {
-	if reservedWords[identifier] {
+	if reservedWords[strings.ToUpper(identifier)] {
 		return true
 	}
 	return false
