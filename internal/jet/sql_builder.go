@@ -13,6 +13,8 @@ import (
 	"unicode"
 )
 
+var reservedWords = map[string]bool{"LIKE": true, "USER": true}
+
 // SQLBuilder generates output SQL
 type SQLBuilder struct {
 	Dialect Dialect
@@ -176,9 +178,19 @@ func shouldQuoteIdentifier(identifier string) bool {
 			return true
 		}
 	}
+	if isReservedWord(identifier) {
+		return true
+	}
 	return false
 }
 
 func stringQuote(value string) string {
 	return `'` + strings.Replace(value, "'", "''", -1) + `'`
+}
+
+func isReservedWord(identifier string) bool {
+	if reservedWords[identifier] {
+		return true
+	}
+	return false
 }
